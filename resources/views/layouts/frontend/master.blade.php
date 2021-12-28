@@ -1,7 +1,6 @@
-<?php
 
-@extends('layouts.frontend.header')
+@include('layouts.frontend.header')
 
 @yield('content')
 
-@extends('layouts.frontend.footer')
+@include('layouts.frontend.footer')
