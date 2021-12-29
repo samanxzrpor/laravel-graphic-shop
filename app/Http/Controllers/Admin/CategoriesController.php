@@ -13,7 +13,7 @@ class CategoriesController extends Controller
 
     public function showAll()
     {
-        $allCategories = Category::all();
+        $allCategories = Category::paginate(10);
 
         return view('admin.categories' ,['allCategories' => $allCategories]);
     }
@@ -21,6 +21,13 @@ class CategoriesController extends Controller
     public function showCreatePage()
     {
         return view('admin.add-category');        
+    }
+
+    public function showUpdatePage(int $cat_id)
+    {
+        $categoryData = Category::find($cat_id);
+ 
+        return view('admin.up-category' , ['categoryData' => $categoryData]);        
     }
 
     public function store(StoreCat $request)
@@ -32,13 +39,23 @@ class CategoriesController extends Controller
         return back()->with('success' , 'دسته جدید ایجاد شد');
     }
 
-    public function delete(Request $request)
+    public function delete(int $cat_id)
     {
-        $deletedID = $request['dlt-id'];
-
-        Category::find($deletedID)->delete();
+        Category::find($cat_id)->delete();
 
         return back();
+    }
+
+    public function update(int $cat_id ,Request $request)
+    {
+        $dataForUpdate = $request->validate([
+            'title' => 'required|min:3|max:128',
+            'slug' => 'required|min:3|max:128',
+        ]);
+
+        Category::find($cat_id)->update(['title'=>$dataForUpdate['title'] , 'slug'=>$dataForUpdate['slug']]);
+
+        return back()->with('success' , 'دسته مورد نظر برروزرسانی شد');
     }
 
 }
