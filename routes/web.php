@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +22,4 @@ Route::get('/admin', function () {
     return view('admin.dashbord');
 });
 
+Route::get('/admin/newCategory',[CategoryController::class , 'showNewCategory']);
