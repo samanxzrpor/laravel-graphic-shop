@@ -46,7 +46,7 @@ class CategoriesController extends Controller
         return back();
     }
 
-    public function update(int $cat_id ,Request $request)
+    public function update(Request $request ,int $cat_id )
     {
         $dataForUpdate = $request->validate([
             'title' => 'required|min:3|max:128',
