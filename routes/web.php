@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoriesController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 Route::get('/', function () {
     return view('frontend.index');
@@ -39,6 +40,15 @@ Route::prefix('admin')->group(function () {
         Route::get('{cat_id}/update', [CategoriesController::class ,'showUpdatePage'])->name('admin.categories.showUpdatePage');
 
         Route::match(['put' ,'patch'],'{cat_id}/update', [CategoriesController::class ,'update'])->name('admin.categories.update');
+    });
+
+    Route::prefix('products')->group(function () {
+
+        Route::get('create' , [ProductsController::class , 'showCreatePage'])->name('admin.products.showCreatePage');
+
+        Route::get('' , [ProductsController::class , 'showAll'])->name('admin.products.showAll');
+
+        Route::post('add' , [ProductsController::class , 'addProduct'])->name('admin.products.addProduct');
     });
 
 });
