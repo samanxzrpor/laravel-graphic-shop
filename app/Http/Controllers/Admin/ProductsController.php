@@ -6,17 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Products\StorePro;
 use App\Models\Category;
 use App\Models\Product;
+use App\Utilities\Remover;
 use App\Utilities\Uploader;
-use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
-    //
+
 
     public function showAll ()
     {
-        return view('admin.products');
+        $products = Product::paginate(10);
+
+        return view('admin.products' , ['products' => $products]);
     }
 
 
@@ -55,7 +58,7 @@ class ProductsController extends Controller
             Uploader::one($dataForStore['source_url'] ,$sourcePath ,'local_storage');
 
         } catch (\Exception $e) {
-            return back()->with('fatal' , $e->getMessage());
+            return back()->with('failed' , $e->getMessage());
         }
         # Update Product Column for save image Path
         $newProduct->update([
@@ -66,4 +69,33 @@ class ProductsController extends Controller
 
         return back()->with('success' , 'محصول جدید ایجاد شد');
     }
+
+    public function downloadDemo(int $product_id)
+    {
+        $product = Product::findOrFail($product_id);
+
+        return response()->download(public_path('/uploads/' . $product->demo_url));
+    }
+
+    public function downloadSource(int $product_id)
+    {
+        $product = Product::findOrFail($product_id);
+
+        return response()->download(storage_path('app/uploads/' .$product->source_url));
+    }
+
+    public function delete(int $product_id)
+    {
+        $productToDelete = Product::find($product_id);
+
+        Remover::deleteAll([
+            public_path('/uploads/products/'.$productToDelete->id),
+            storage_path('app/uploads/products/'.$productToDelete->id),
+        ]);
+            
+        $productToDelete->delete();
+
+        return back()->with('success' ,'محصول حذف شد');
+    }
+
 }

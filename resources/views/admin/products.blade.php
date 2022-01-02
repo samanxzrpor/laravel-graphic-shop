@@ -26,9 +26,9 @@
           <div class="row">
               <div class="col-12">
                   <div class="card">
+                      @include('errors.msg')
                       <div class="card-header">
                           <h3 class="card-title">لیست محصولات</h3>
-
                           <div class="card-tools">
                               <div class="input-group input-group-sm" style="width: 150px;">
                                   <input type="text" name="table_search" class="form-control float-right" placeholder="جستجو">
@@ -55,111 +55,33 @@
                                   <th>تاریخ ایجاد</th>
                                   <th>عملیات</th>
                               </tr>
+                              @foreach($products as $product)
                               <tr>
-                                  <td>۱۲۲</td>
+                                  <td>{{$product->id}}</td>
                                   <td>
-                                      <img src="/dist/img/user6-128x128.jpg" class="product_img">
-                                      کارت ویزیت مشاور املاک</td>
-                                  <td>کارت ویزیت</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>توضیحات</td>
+                                      <img src="/uploads/{{$product->thumbnail_url}}" class="product_img">
+                                      {{$product->title}}</td>
+                                  <td>{{ $product->category->title }}</td>
+                                  <td>{{ $product->user->name }}</td>
+                                  <td>{!! substr($product->description ,0  , 20) !!}</td>
                                   <td>
-                                      <a href="#" class="btn btn-default btn-icons" title="لینک دمو"><i class="fa fa-link"></i></a>
+                                      <a href="{{ route('product.download.demo' , $product->id) }}" class="btn btn-default btn-icons" title="لینک دمو"><i class="fa fa-link"></i></a>
                                   </td>
                                   <td>
-                                      <a href="#" class="btn btn-default btn-icons" title="لینک دانلود"><i class="fa fa-link"></i></a>
+                                      <a href="{{ route('product.download.source' , $product->id) }}" class="btn btn-default btn-icons" title="لینک دانلود"><i class="fa fa-link"></i></a>
                                   </td>
-                                  <td>۳۹۰۰۰ تومان</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
+                                  <td>{{App\Utilities\Language::numberToPersion($product->price)}} تومان</td>
+                                  <td>{{$product->created_at}}</td>
                                   <td>
                                       <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
+                                      <form action="{{ route('product.delete' , $product->id) }}" method="post" style="display:inline">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></button>
+                                      </form>
                                   </td>
                               </tr>
-                              <tr>
-                                  <td>۱۲۲</td>
-                                  <td>
-                                      <img src="/dist/img/user6-128x128.jpg" class="product_img">
-                                      کارت ویزیت مشاور املاک</td>
-                                  <td>کارت ویزیت</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>توضیحات</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons" title="لینک دمو"><i class="fa fa-link"></i></a>
-                                  </td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons" title="لینک دانلود"><i class="fa fa-link"></i></a>
-                                  </td>
-                                  <td>۳۹۰۰۰ تومان</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>۱۲۲</td>
-                                  <td>
-                                      <img src="/dist/img/user6-128x128.jpg" class="product_img">
-                                      کارت ویزیت مشاور املاک</td>
-                                  <td>کارت ویزیت</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>توضیحات</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons" title="لینک دمو"><i class="fa fa-link"></i></a>
-                                  </td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons" title="لینک دانلود"><i class="fa fa-link"></i></a>
-                                  </td>
-                                  <td>۳۹۰۰۰ تومان</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>۱۲۲</td>
-                                  <td>
-                                      <img src="/dist/img/user6-128x128.jpg" class="product_img">
-                                      کارت ویزیت مشاور املاک</td>
-                                  <td>کارت ویزیت</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>توضیحات</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons" title="لینک دمو"><i class="fa fa-link"></i></a>
-                                  </td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons" title="لینک دانلود"><i class="fa fa-link"></i></a>
-                                  </td>
-                                  <td>۳۹۰۰۰ تومان</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>۱۲۲</td>
-                                  <td>
-                                      <img src="/dist/img/user6-128x128.jpg" class="product_img">
-                                      کارت ویزیت مشاور املاک</td>
-                                  <td>کارت ویزیت</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>توضیحات</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons" title="لینک دمو"><i class="fa fa-link"></i></a>
-                                  </td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons" title="لینک دانلود"><i class="fa fa-link"></i></a>
-                                  </td>
-                                  <td>۳۹۰۰۰ تومان</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
-                                  </td>
-                              </tr>
+                              @endforeach
                               </tbody></table>
                       </div>
                       <!-- /.card-body -->
@@ -167,11 +89,7 @@
                   <!-- /.card -->
                   <div class="d-flex justify-content-center">
                       <ul class="pagination mt-3">
-                          <li class="page-item"><a class="page-link" href="#">«</a></li>
-                          <li class="page-item"><a class="page-link" href="#">۱</a></li>
-                          <li class="page-item"><a class="page-link" href="#">۲</a></li>
-                          <li class="page-item"><a class="page-link" href="#">۳</a></li>
-                          <li class="page-item"><a class="page-link" href="#">»</a></li>
+                          {{$products->links("pagination::bootstrap-4")}}
                       </ul>
                   </div>
               </div>

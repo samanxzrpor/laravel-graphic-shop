@@ -49,6 +49,12 @@ Route::prefix('admin')->group(function () {
         Route::get('' , [ProductsController::class , 'showAll'])->name('admin.products.showAll');
 
         Route::post('add' , [ProductsController::class , 'addProduct'])->name('admin.products.addProduct');
+
+        Route::get('{product_id}/download/demo' , [ProductsController::class , 'downloadDemo'])->name('product.download.demo');
+
+        Route::get('{product_id}/download/source' , [ProductsController::class , 'downloadSource'])->name('product.download.source');
+
+        Route::delete('{product_id}/delete', [ProductsController::class , 'delete'])->name('product.delete');
     });
 
 });
