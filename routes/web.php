@@ -55,6 +55,10 @@ Route::prefix('admin')->group(function () {
         Route::get('{product_id}/download/source' , [ProductsController::class , 'downloadSource'])->name('product.download.source');
 
         Route::delete('{product_id}/delete', [ProductsController::class , 'delete'])->name('product.delete');
+
+        Route::get('{product_id}/edit' , [ProductsController::class , 'edit'])->name('product.editPage');
+
+        Route::put('{product_id}/update' , [ProductsController::class , 'update'])->name('product.update');
     });
 
 });

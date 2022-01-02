@@ -73,7 +73,7 @@
                                   <td>{{App\Utilities\Language::numberToPersion($product->price)}} تومان</td>
                                   <td>{{$product->created_at}}</td>
                                   <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
+                                      <a href="{{ route('product.editPage' , $product->id) }}" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
                                       <form action="{{ route('product.delete' , $product->id) }}" method="post" style="display:inline">
                                         @csrf
                                         @method('delete')

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Products\StorePro;
+use App\Http\Requests\Admin\Products\UpdatePro;
 use App\Models\Category;
 use App\Models\Product;
 use App\Utilities\Remover;
 use App\Utilities\Uploader;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -47,25 +49,7 @@ class ProductsController extends Controller
             'user_id' => 1
         ]);
 
-        try {
-            # Store Publicly images
-            $publiclyImages = ['thumbnail_url'=> $dataForStore['thumbnail_url'], 'demo_url'=>$dataForStore['demo_url']];
-            $publiclyPath = 'products/' . $newProduct->id . '/';
-            $imagesPath = Uploader::all($publiclyImages ,$publiclyPath);
-
-            # Store source image 
-            $sourcePath = 'products/' . $newProduct->id . '/source_url_' . $dataForStore['source_url']->getClientOriginalName();
-            Uploader::one($dataForStore['source_url'] ,$sourcePath ,'local_storage');
-
-        } catch (\Exception $e) {
-            return back()->with('failed' , $e->getMessage());
-        }
-        # Update Product Column for save image Path
-        $newProduct->update([
-            'thumbnail_url'=> $imagesPath['thumbnail_url'],
-            'demo_url'=> $imagesPath['demo_url'],
-            'source_url'=> $sourcePath
-        ]);
+        $this->updateFiles($dataForStore , $newProduct);
 
         return back()->with('success' , 'محصول جدید ایجاد شد');
     }
@@ -98,4 +82,73 @@ class ProductsController extends Controller
         return back()->with('success' ,'محصول حذف شد');
     }
 
+    public function edit(int $product_id)
+    {
+        $productData = Product::findOrFail($product_id);
+
+        $listOfCat = Category::all();
+
+        return view('admin.up-product' , ['product'=>$productData , 'listOfCat' => $listOfCat]);
+    }
+
+    public function update(UpdatePro $request ,int $product_id)
+    {  
+        $dateForUpdate = $request->validated();
+       
+        $productToUpdate = Product::findOrFail($product_id);
+
+        $productToUpdate->update([
+            'title' => $dateForUpdate['title'],
+            'description' => $dateForUpdate['description'],
+            'price' => $dateForUpdate['price'],
+            'category_id' => $dateForUpdate['category_id']
+        ]);
+
+        if (isset($dateForUpdate['thumbnail_url'])) 
+            File::delete(public_path('/uploads/'. $productToUpdate['thumbnail_url']));
+        
+        if (isset($dateForUpdate['demo_url'])) 
+            File::delete(public_path('/uploads/'. $productToUpdate['demo_url']));
+
+        if (isset($dateForUpdate['source_url'])) 
+            File::delete(storage_path('/app/uploads/'. $productToUpdate['thumbnail_url']));
+        
+        
+        $this->updateFiles($dateForUpdate , $productToUpdate);
+
+        return back()->with('success', 'محصول مورد نظر بروزرسانی شد');
+    }
+
+
+    private function updateFiles(array $dateForUpdate , mixed $product)
+    {
+        $basePath = 'products/' . $product->id . '/';
+
+        try {
+
+            foreach ($dateForUpdate as $key => $value) {
+                
+                if (strpos($key ,'url')) {
+
+                    if (!is_null($value)) {
+
+                        $basePath .= $key . '_' . $value->getClientOriginalName();
+    
+                        if ($key == 'source_url') {
+    
+                            Uploader::one($value ,$basePath ,'local_storage');
+                        }
+    
+                        Uploader::one($value ,$basePath);
+    
+                        
+                        $product->update([$key => $basePath]);
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            return back()->with('failed' , $e->getMessage());
+        }
+    }
 }

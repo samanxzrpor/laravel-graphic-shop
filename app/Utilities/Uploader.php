@@ -15,7 +15,9 @@ class Uploader
         foreach ($images as $name => $image) {
 
             $fullPath = $path . $name . '_' . $image->getClientOriginalName();
-            Storage::disk($disk)->put($fullPath ,File::get($image));
+        
+            if (!is_null($image))
+                self::one($image ,$fullPath ,$disk);
 
             $returnedPath [$name] = $fullPath;
         }
@@ -25,7 +27,8 @@ class Uploader
 
     public static function one(array|object $image, string $path, string $disk = 'public_storage')
     {
-        Storage::disk($disk)->put($path ,File::get($image));
+        if (!is_null($image))
+            Storage::disk($disk)->put($path ,File::get($image));
     }
 
 }
