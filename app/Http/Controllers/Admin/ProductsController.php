@@ -35,7 +35,7 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function addProduct (StorePro $request)
+    public function storeProduct (StorePro $request)
     {
         # validate Data 
         $dataForStore = $request->validated();
@@ -49,7 +49,7 @@ class ProductsController extends Controller
             'user_id' => 1
         ]);
 
-        $this->updateFiles($dataForStore , $newProduct);
+        $this->uploadAndUpdateFiles($dataForStore , $newProduct);
 
         return back()->with('success' , 'محصول جدید ایجاد شد');
     }
@@ -114,41 +114,34 @@ class ProductsController extends Controller
             File::delete(storage_path('/app/uploads/'. $productToUpdate['thumbnail_url']));
         
         
-        $this->updateFiles($dateForUpdate , $productToUpdate);
+        $this->uploadAndUpdateFiles($dateForUpdate , $productToUpdate);
 
         return back()->with('success', 'محصول مورد نظر بروزرسانی شد');
     }
 
 
-    private function updateFiles(array $dateForUpdate , mixed $product)
+    private function uploadAndUpdateFiles(array $dateForUpdate , mixed $product)
     {
         $basePath = 'products/' . $product->id . '/';
 
-        try {
+        foreach ($dateForUpdate as $key => $value) {
+            
+            if (strpos($key ,'url')) {
 
-            foreach ($dateForUpdate as $key => $value) {
-                
-                if (strpos($key ,'url')) {
+                if (!is_null($value)) {
 
-                    if (!is_null($value)) {
+                    $basePath .= $key . '_' . $value->getClientOriginalName();
 
-                        $basePath .= $key . '_' . $value->getClientOriginalName();
-    
-                        if ($key == 'source_url') {
-    
-                            Uploader::one($value ,$basePath ,'local_storage');
-                        }
-    
-                        Uploader::one($value ,$basePath);
-    
-                        
-                        $product->update([$key => $basePath]);
+                    if ($key == 'source_url') {
+
+                        Uploader::one($value ,$basePath ,'local_storage');
                     }
+
+                    Uploader::one($value ,$basePath);
+
+                    $product->update([$key => $basePath]);
                 }
             }
-
-        } catch (\Exception $e) {
-            return back()->with('failed' , $e->getMessage());
         }
     }
 }

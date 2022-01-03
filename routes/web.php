@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,7 +49,7 @@ Route::prefix('admin')->group(function () {
 
         Route::get('' , [ProductsController::class , 'showAll'])->name('admin.products.showAll');
 
-        Route::post('add' , [ProductsController::class , 'addProduct'])->name('admin.products.addProduct');
+        Route::post('store' , [ProductsController::class , 'storeProduct'])->name('admin.products.addProduct');
 
         Route::get('{product_id}/download/demo' , [ProductsController::class , 'downloadDemo'])->name('product.download.demo');
 
@@ -59,6 +60,16 @@ Route::prefix('admin')->group(function () {
         Route::get('{product_id}/edit' , [ProductsController::class , 'edit'])->name('product.editPage');
 
         Route::put('{product_id}/update' , [ProductsController::class , 'update'])->name('product.update');
+    });
+
+    Route::prefix('users')->group(function () {
+
+        route::get('/' , [UsersController::class , 'showAll'])->name('users.showAll');
+
+        route::get('create' , [UsersController::class , 'showCreatePage'])->name('users.showCreatePage');
+
+        route::post('store' , [UsersController::class , 'storeUser'])->name('users.storeNewUser');
+
     });
 
 });

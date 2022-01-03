@@ -51,7 +51,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="users-add.php" class="nav-link">
+                                <a href="{{ route('users.showCreatePage') }}" class="nav-link">
                                     <i class="fa fa-plus nav-icon"></i>
                                     <p>افزودن</p>
                                 </a>
@@ -59,7 +59,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="users.php" class="nav-link">
+                                <a href="{{ route('users.showAll') }}" class="nav-link">
                                     <i class="fa fa-list nav-icon"></i>
                                     <p>لیست</p>
                                 </a>

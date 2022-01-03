@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -47,5 +48,23 @@ class User extends Authenticatable
     public function Products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public static function getUsersRoles()
+    {
+        $enomTypes = [];
+
+        $dataFromDatabase = DB::select(DB::raw('SHOW COLUMNS FROM users WHERE FIELD = "role"'))[0]->Type;
+
+        preg_match('/enum\((.*)\)$/' ,$dataFromDatabase , $matches);
+
+        $enoms = explode(',' , $matches[1]);
+
+        foreach ($enoms as $value) {
+
+            $enomTypes[] = trim($value , "'");
+        }
+
+        return $enomTypes;
     }
 }
