@@ -53,7 +53,7 @@
                         راهنمای خرید و قوانین
                     </a>
 
-                    <a href="#" class="flex-c-m trans-04 p-lr-25">
+                    <a href="{{ route('admin') }}" class="flex-c-m trans-04 p-lr-25">
                         اکانت من
                     </a>
                 </div>
@@ -64,7 +64,7 @@
             <nav class="limiter-menu-desktop container">
 
                 <!-- Logo desktop -->
-                <a href="/" class="logo">
+                <a href="{{ route('homePage') }}" class="logo">
                     <img src="/images/icons/logo-01.png" alt="IMG-LOGO">
                 </a>
 
@@ -73,7 +73,7 @@
                     <ul class="main-menu">
 
                         <li class="active-menu">
-                            <a href="/">صفحه اصلی</a>
+                            <a href="{{ route('homePage') }}">صفحه اصلی</a>
                         </li>
                         <li>
                             <a href="/">تماس با ما</a>
