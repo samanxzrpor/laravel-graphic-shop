@@ -52,16 +52,24 @@
                               @foreach ($payments as $payment)
                               <tr>
                                   <td>{{ $payment['created_at'] }}</td>
-                                  <td>{{ App\Utilities\Language::numberToPersion($payment['price']) }} تومان</td>
-                                  <td>۲۱</td>
-                                  <td>میلاد بسحاق</td>
+                                  <td>{{ App\Utilities\Language::numberToPersion($payment->order->amount) }} تومان</td>
+                                  <td>{{ $payment['id'] }}</td>
+                                  <td>{{ $payment->order->user->name }}</td>
                                   <td>
-                                      ملت
+                                      {{ $payment['geteway'] }}
                                   </td>
                                   <td>
-                                      <span class="badge bg-success">موفق</span>
+                                        @if ($payment['status'] == 'paied')
+                                        <span class="badge bg-success">موفق</span>           
+                                        @endif
+                                        @if ($payment['status'] == 'pending')
+                                        <span class="badge bg-warning">در انتظار پرداخت</span>           
+                                        @endif
+                                        @if ($payment['status'] == 'waiting')
+                                        <span class="badge bg-danger">ناموفق</span>           
+                                        @endif                     
                                   </td>
-                                  <td>۵۸۸۴۸۳۹۹۹۰۲</td>
+                                  <td>{{ $payment['res_code'] }}</td>
                               </tr>
                               @endforeach
                               </tbody></table>
