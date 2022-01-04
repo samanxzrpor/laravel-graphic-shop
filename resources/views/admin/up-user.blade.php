@@ -10,7 +10,7 @@
           <div class="col-12">
             <h1 class="m-0 text-dark">
                 <a class="nav-link drawer" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
-                کاربران / افزودن
+                کاربران / بروز رسانی  {{$user->name}}
                 <a class="btn btn-primary float-left text-white py-2 px-4" href="{{ route('users.showAll') }}">بازگشت به صفحه کاربران</a>
             </h1>
           </div><!-- /.col -->

@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\PaymentsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -77,5 +79,18 @@ Route::prefix('admin')->group(function () {
         route::delete('{user_id}/delete' , [UsersController::class , 'delete'])->name('users.deleteUser');
 
     });
+
+    Route::prefix('orders')->group(function() {
+
+        Route::get('/' , [OrdersController::class , 'showAll'])->name('orders.showAll');
+
+    });
+
+    Route::prefix('payments')->group(function() {
+
+        Route::get('/' , [PaymentsController::class , 'showAll'])->name('payments.showAll');
+
+    });
+
 
 });

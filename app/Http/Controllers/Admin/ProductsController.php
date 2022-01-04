@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Products\StorePro;
 use App\Http\Requests\Admin\Products\UpdatePro;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use App\Utilities\Remover;
 use App\Utilities\Uploader;
 use Illuminate\Http\Request;
@@ -29,7 +30,6 @@ class ProductsController extends Controller
     {
         $listOfCat = Category::all();
         
-        
         return view('admin.add-product' , [
             'listOfCat' => $listOfCat
         ]);
@@ -40,13 +40,15 @@ class ProductsController extends Controller
         # validate Data 
         $dataForStore = $request->validated();
 
+        $user = User::where('role', 'admin')->first();
+
         # store Data of Product in Database
         $newProduct = Product::create([
             'title' =>$dataForStore['title'],
             'price' =>$dataForStore['price'],
             'description' =>$dataForStore['description'],
             'category_id' =>$dataForStore['category_id'],
-            'user_id' => 1
+            'user_id' => $user['id']
         ]);
 
         $this->uploadAndUpdateFiles($dataForStore , $newProduct);

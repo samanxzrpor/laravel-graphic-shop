@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Enum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,6 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use Enum;
 
     /**
      * The attributes that are mass assignable.
@@ -47,21 +49,9 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
-    public static function getUsersRoles()
+    public function orders()
     {
-        $enomTypes = [];
-
-        $dataFromDatabase = DB::select(DB::raw('SHOW COLUMNS FROM users WHERE FIELD = "role"'))[0]->Type;
-
-        preg_match('/enum\((.*)\)$/' ,$dataFromDatabase , $matches);
-
-        $enoms = explode(',' , $matches[1]);
-
-        foreach ($enoms as $value) {
-
-            $enomTypes[] = trim($value , "'");
-        }
-
-        return $enomTypes;
+        return $this->hasMany(Order::class);
     }
+
 }

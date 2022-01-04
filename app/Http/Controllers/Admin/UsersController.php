@@ -24,7 +24,7 @@ class UsersController extends Controller
 
     public function showCreatePage()
     {   
-        $roles = User::getUsersRoles();
+        $roles = (new User())->getEnumFields('users' , 'role');
 
         return view('admin.add-user' , [
             'roles' => $roles
