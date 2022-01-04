@@ -50,78 +50,24 @@
                                   <th>تاریخ عضویت</th>
                                   <th>عملیات</th>
                               </tr>
+                              @foreach($users as $user)
                               <tr>
-                                  <td>۱۸۳</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>miladboshaghh@gmail.com</td>
-                                  <td>09168167426</td>
-                                  <td>کاربر عادی</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
+                                  <td>{{$user->id}}</td>
+                                  <td>{{ $user->name }}</td>
+                                  <td>{{ $user->email }}</td>
+                                  <td>{{ $user->number }}</td>
+                                  <td>{{ $user->role }}</td>
+                                  <td>{{ $user->created_at }}</td>
                                   <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
+                                      <a href="{{ route('users.showEditPage' , $user->id) }}" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
+                                      <form action="{{ route('users.deleteUser' , $user->id) }}" method="post" style="display: inline"> 
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></button>
+                                      </form>
                                   </td>
                               </tr>
-                              <tr>
-                                  <td>۱۸۳</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>miladboshaghh@gmail.com</td>
-                                  <td>09168167426</td>
-                                  <td>کاربر عادی</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>۱۸۳</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>miladboshaghh@gmail.com</td>
-                                  <td>09168167426</td>
-                                  <td>کاربر عادی</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>۱۸۳</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>miladboshaghh@gmail.com</td>
-                                  <td>09168167426</td>
-                                  <td>کاربر عادی</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>۱۸۳</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>miladboshaghh@gmail.com</td>
-                                  <td>09168167426</td>
-                                  <td>کاربر عادی</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>۱۸۳</td>
-                                  <td>میلاد بسحاق</td>
-                                  <td>miladboshaghh@gmail.com</td>
-                                  <td>09168167426</td>
-                                  <td>کاربر عادی</td>
-                                  <td>۲۵ مرداد ۱۴۰۰</td>
-                                  <td>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-edit"></i></a>
-                                      <a href="#" class="btn btn-default btn-icons"><i class="fa fa-trash"></i></a>
-                                  </td>
-                              </tr>
+                             @endforeach
                               </tbody></table>
                       </div>
                       <!-- /.card-body -->
@@ -129,11 +75,7 @@
                   <!-- /.card -->
                   <div class="d-flex justify-content-center">
                       <ul class="pagination mt-3">
-                          <li class="page-item"><a class="page-link" href="#">«</a></li>
-                          <li class="page-item"><a class="page-link" href="#">۱</a></li>
-                          <li class="page-item"><a class="page-link" href="#">۲</a></li>
-                          <li class="page-item"><a class="page-link" href="#">۳</a></li>
-                          <li class="page-item"><a class="page-link" href="#">»</a></li>
+                          {{ $users->links('pagination::bootstrap-4') }}
                       </ul>
                   </div>
               </div>

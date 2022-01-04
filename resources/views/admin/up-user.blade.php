@@ -27,26 +27,27 @@
                   @include('errors.msg')
                   <div class="card card-defualt">
                       <!-- form start -->
-                      <form action="{{ route('users.storeNewUser') }}" method="post">
+                      <form action="{{ route('users.updateUser' , $user->id) }}" method="post">
                           @csrf
+                          @method('put')
                           <div class="card-body">
                               <div class="row">
                                   <div class="col-md-6">
                                       <div class="form-group">
                                           <label>نام و نام خانوادگی</label>
-                                          <input type="text" class="form-control" name="name" placeholder="نام و نام خانوادگی را وارد کنید">
+                                          <input type="text" class="form-control" name="name" value="{{ $user['name'] }}">
                                       </div>
                                   </div>
                                   <div class="col-md-6">
                                       <div class="form-group">
                                           <label>ایمیل</label>
-                                          <input type="email" class="form-control" name="email" placeholder="ایمیل را وارد کنید">
+                                          <input type="email" class="form-control" name="email" value="{{ $user['email'] }}">
                                       </div>
                                   </div>
                                   <div class="col-md-6">
                                       <div class="form-group">
                                           <label>موبایل</label>
-                                          <input type="number" class="form-control" name="number" placeholder="موبایل را وارد کنید">
+                                          <input type="number" class="form-control" name="number" value="{{ $user['number'] }}">
                                       </div>
                                   </div>
                                   <div class="col-md-6">
@@ -54,7 +55,7 @@
                                           <label>نقش کاربری</label>
                                           <select class="form-control" name="role">
                                               @foreach($roles as $role)
-                                              <option value="{{ $role }}">{{ $role }}</option>
+                                              <option value="{{ $role }}" {{ $role == $user['role'] ? 'selected' : '' }}>{{ $role }}</option>
                                               @endforeach
                                           </select>
                                       </div>
@@ -62,13 +63,13 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                         <label>رمز عبور</label>
-                                        <input type="text" class="form-control" name="password" placeholder="رمز را وارد کنید">
+                                        <input type="password" class="form-control" name="password" placeholder="رمز جدید را وارد کنید">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
                                         <label>تکرار رمز عبور</label>
-                                        <input type="text" class="form-control" name="password_confirmation" placeholder="رمز را تکرار کنید">
+                                        <input type="password" class="form-control" name="password_confirmation" placeholder="رمز را تکرار کنید">
                                     </div>
                                   </div>
                               </div>

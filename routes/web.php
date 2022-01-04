@@ -38,7 +38,7 @@ Route::prefix('admin')->group(function () {
 
         Route::delete('{cat_id}/delete', [CategoriesController::class ,'delete'])->name('admin.categories.delete');
 
-        Route::get('{cat_id}/update', [CategoriesController::class ,'showUpdatePage'])->name('admin.categories.showUpdatePage');
+        Route::get('{cat_id}/edit', [CategoriesController::class ,'edit'])->name('admin.categories.showUpdatePage');
 
         Route::match(['put' ,'patch'],'{cat_id}/update', [CategoriesController::class ,'update'])->name('admin.categories.update');
     });
@@ -69,6 +69,12 @@ Route::prefix('admin')->group(function () {
         route::get('create' , [UsersController::class , 'showCreatePage'])->name('users.showCreatePage');
 
         route::post('store' , [UsersController::class , 'storeUser'])->name('users.storeNewUser');
+
+        route::get('{user_id}/edit' , [UsersController::class , 'edit'])->name('users.showEditPage');
+
+        route::put('{user_id}/update' , [UsersController::class , 'update'])->name('users.updateUser');
+
+        route::delete('{user_id}/delete' , [UsersController::class , 'delete'])->name('users.deleteUser');
 
     });
 

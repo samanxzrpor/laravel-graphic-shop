@@ -22,7 +22,7 @@ class CategoriesController extends Controller
         return view('admin.add-category');        
     }
 
-    public function showUpdatePage(int $cat_id)
+    public function edit(int $cat_id)
     {
         $categoryData = Category::find($cat_id);
         return view('admin.up-category' , ['categoryData' => $categoryData]);        
