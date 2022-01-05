@@ -10,26 +10,11 @@
                 <button class="mtext-106 cl6 hov1 bor3 trans-04 m-l-32 m-tb-5 how-active1" data-filter="*">
                     همه دسته بندی ها
                 </button>
-
-                <button class="mtext-106 cl6 hov1 bor3 trans-04 m-l-32 m-tb-5" data-filter=".women">
-                    تراکت
-                </button>
-
-                <button class="mtext-106 cl6 hov1 bor3 trans-04 m-l-32 m-tb-5" data-filter=".men">
-                    کارت ویزیت
-                </button>
-
-                <button class="mtext-106 cl6 hov1 bor3 trans-04 m-l-32 m-tb-5" data-filter=".bag">
-                    بنر
-                </button>
-
-                <button class="mtext-106 cl6 hov1 bor3 trans-04 m-l-32 m-tb-5" data-filter=".shoes">
-                    ست اداری
-                </button>
-
-                <button class="mtext-106 cl6 hov1 bor3 trans-04 m-l-32 m-tb-5" data-filter=".watches">
-                    وکتور
-                </button>
+                @foreach($categories as $category)
+                <button class="mtext-106 cl6 hov1 bor3 trans-04 m-l-32 m-tb-5" data-filter=".{{ $category['slug'] }}">
+                    {{ $category['title'] }}
+                </button>   
+                @endforeach
             </div>
 
             <div class="flex-w flex-c-m m-tb-10">
@@ -49,12 +34,14 @@
             <!-- Search product -->
             <div class="dis-none panel-search w-full p-t-10 p-b-15">
                 <div class="bor8 dis-flex p-l-15">
-                    <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
-                        <i class="zmdi zmdi-search"></i>
-                    </button>
-
-                    <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="متن خود را اینجا بنویسید و enter بزنید ...">
-                </div>	
+                    <form action="{{ route('shopPage') }}" method="get">
+                        <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+                            <i class="zmdi zmdi-search"></i>
+                        </button>
+    
+                        <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="متن خود را اینجا بنویسید و enter بزنید ...">    
+                    </form>
+               </div>	
             </div>
 
             <!-- Filter -->
@@ -94,20 +81,20 @@
                             </li>
 
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04">
-                                    ۱۰ الی ۱۰۰ هزار تومان
+                                <a href="{{ route('shopPage') }}?filter=price&action=set&value=10-1000000" class="filter-link stext-106 trans-04">
+                                    ۱۰ هزار الی ۱ میلیون
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04">
-                                    ۱۰۱ الی ۲۰۰ هزار تومان
+                                <a href="{{ route('shopPage') }}?filter=price&action=set&value=1000000-10000000" class="filter-link stext-106 trans-04">
+                                    ۱ میلیون الی ۱۰ میلیون
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04">
-                                    ۲۰۱ الی ۳۰۰ هزار تومان
+                                <a href="{{ route('shopPage') }}?filter=price&action=set&value=10000000-100000000" class="filter-link stext-106 trans-04">
+                                    ۱۰ میلیون الی ۱۰۰ میلیون
                                 </a>
                             </li>
                         </ul>
@@ -120,19 +107,19 @@
 
                         <ul>
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04">
+                                <a href="{{ route('shopPage') }}?filter=orderby&action=default" class="filter-link stext-106 trans-04">
                                     پیش فرض
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04">
+                                <a href="{{ route('shopPage') }}?filter=orderby&action=papular" class="filter-link stext-106 trans-04">
                                     محبوبیت
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04 filter-link-active">
+                                <a href="{{ route('shopPage') }}?filter=orderby&action=newest" class="filter-link stext-106 trans-04 filter-link-active">
                                     جدیدترین
                                 </a>
                             </li>
@@ -157,11 +144,11 @@
 
         <div class="row isotope-grid">
             @foreach ($products as $product)
-            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{ $product->category->slug }}">
                 <!-- Block2 -->
                 <div class="block2">
                     <div class="block2-pic hov-img0">
-                        <img src="/uploads/{{ $product->thumbnail_url }}" alt="IMG-PRODUCT" style="border-radius: 1em">
+                        <img src="/uploads/{{ $product['thumbnail_url'] }}" alt="IMG-PRODUCT" style="border-radius: 1em">
 
                         <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                             مشاهده سریع
@@ -175,7 +162,7 @@
                             </a>
 
                             <span class="stext-105 cl3">
-                                {{ $product['price'] }} تومان
+                                {{ number_format($product['price']) }} تومان
                             </span>
                         </div>
                     </div>
