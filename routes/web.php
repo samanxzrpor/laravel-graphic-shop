@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Shop\HomeController;
 use App\Http\Controllers\Shop\ProductsController as Shop;
 use App\Http\Controllers\Shop\Cart;
+use App\Http\Controllers\Shop\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,12 @@ Route::prefix('')->group(function (){
         Route::get('{product_id}/add' , [Cart::class , 'add'])->name('cart.add');
 
         Route::get('{product_id}/delete' , [Cart::class , 'delete'])->name('cart.delete');
+
+    });
+
+    Route::prefix('checkout')->group(function (){
+        
+        Route::get('' , [CheckoutController::class , 'show'])->name('checkout.show');
 
     });
 

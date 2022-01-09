@@ -28,7 +28,7 @@ class ProductsController extends Controller
 
         $categories = Category::all();
 
-        return view('frontend.index' , ['products' => $products, 'categories' => $categories , 'carts'=>Cart::showAll()]);
+        return view('frontend.index' , ['products' => $products, 'categories' => $categories , 'carts' => Cart::showAll()]);
     }
 
     public function single(int $product_id)

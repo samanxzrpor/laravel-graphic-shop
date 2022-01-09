@@ -57,17 +57,27 @@ class Cart extends Controller
     
     public static function showAll()
     {
-        return json_decode(Cookie::get('cart') , true) ?? null;
+        return json_decode(Cookie::get('cart') , true) ?? [];
     }
     
     public static function getCountCart()
     {
-        return count(json_decode(Cookie::get('cart'), true)) ?? 0;
+        $items = json_decode(Cookie::get('cart'), true) ;
+
+        if ($items)
+            return count($items);
+
+        return 0;
     }
 
     public static function getAmountCart()
     {
-        return array_sum(array_column(json_decode(Cookie::get('cart'), true) , 'price')) ?? 0;
+        $items = json_decode(Cookie::get('cart'), true) ;
+        
+        if ($items)
+            return array_sum(array_column($items , 'price'));
+
+        return 0;
     }
 
     public function delete($product_id)
