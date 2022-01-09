@@ -27,4 +27,18 @@ class Orderby
         return $products;
     }
 
+    public function highToLow()
+    {
+        $products = Product::orderby('price','desc')->paginate(15);
+
+        return $products;
+    }
+    
+    public function lowToHigh()
+    {
+        $products = Product::orderby('price','asc')->paginate(15);
+
+        return $products;
+    }
+
 }

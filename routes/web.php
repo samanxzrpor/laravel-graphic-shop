@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Shop\HomeController;
 use App\Http\Controllers\Shop\ProductsController as Shop;
+use App\Http\Controllers\Shop\Cart;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,16 @@ Route::prefix('')->group(function (){
     Route::get('shop' , [Shop::class , 'showAll'])->name('shopPage');
 
     Route::get('shop/{product_id}/show' , [Shop::class , 'single'])->name('product.single');
+
+    Route::prefix('cart')->group(function (){
+
+        Route::get('' , [Cart::class , 'showAll'])->name('cart.showAll');
+
+        Route::get('{product_id}/add' , [Cart::class , 'add'])->name('cart.add');
+
+        Route::get('{product_id}/delete' , [Cart::class , 'delete'])->name('cart.delete');
+
+    });
 
 });
 
