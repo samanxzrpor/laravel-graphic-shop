@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Auth\Register;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Users\StoreUser;
 use App\Http\Requests\Admin\Users\UpdateUser;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -39,7 +38,7 @@ class UsersController extends Controller
             $storedUser = User::create([
                 'name' => $dataForStore['name'],
                 'email' => $dataForStore['email'],
-                'role' => strval($dataForStore['role']),
+                'role' => $dataForStore['role'] ? strval($dataForStore['role']) : 'user',
                 'number' => $dataForStore['number'],
                 'password' => Hash::make($dataForStore['password'])
             ]);
@@ -48,7 +47,7 @@ class UsersController extends Controller
 
             return back()->with('failed' , $e->getMessage());
         }
-
+    
         return back()->with('success' , 'کاربر جدید ایجاد شد');
     }
 

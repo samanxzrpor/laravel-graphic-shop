@@ -9,6 +9,7 @@ use App\Http\Controllers\Shop\HomeController;
 use App\Http\Controllers\Shop\ProductsController as Shop;
 use App\Http\Controllers\Shop\Cart;
 use App\Http\Controllers\Shop\CheckoutController;
+use App\Http\Controllers\Shop\PaymentsController as Pay;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -119,4 +120,11 @@ Route::prefix('admin')->group(function () {
     });
 
 
+});
+
+Route::prefix('payment')->group(function (){
+
+    Route::post('pay' , [Pay::class , 'pay'])->name('payment.pay');
+
+    Route::get('challback' , [Pay::class , 'challback'])->name('payment.callback');
 });
