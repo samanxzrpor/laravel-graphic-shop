@@ -143,6 +143,7 @@
         </div>
 
         <div class="row isotope-grid">
+            @include('errors.msg')
             @foreach ($products as $product)
             <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{ $product->category->slug }}">
                 <!-- Block2 -->

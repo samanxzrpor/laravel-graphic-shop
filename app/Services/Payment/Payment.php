@@ -26,6 +26,11 @@ class Payment
         return $this->findProvider()->pay();
     }
 
+    public function verify()
+    {
+        return $this->findProvider()->verify();
+    }
+
 
     public function findProvider()
     {

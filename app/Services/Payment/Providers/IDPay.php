@@ -42,6 +42,30 @@ class IDPay extends ProviderAbstract implements OnlinePayInterface
 
     public function verify()
     {
+
+        $params = array(
+          'id' => $this->request->getId(),
+          'order_id' => $this->request->getOrderId(),
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api.idpay.ir/v1.1/payment/verify');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+          'Content-Type: application/json',
+          'X-API-KEY: '.$this->request->getAPIKey().'',
+          'X-SANDBOX: 1',
+        ));
+        
+        $result = curl_exec($ch);
+        curl_close($ch);
+        $result = json_decode($result, TRUE);
+
+        if (isset($result['error_code']))
+           return redirect()->route('checkout.show')->with('failed' , $result['error_message']);
+
+        return $result;
         
     }
 

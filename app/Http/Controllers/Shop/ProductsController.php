@@ -14,6 +14,7 @@ class ProductsController extends Controller
     
     public function showAll(Request $request)
     {
+
         $products = Product::paginate(15);
         
         if (isset($request->filter , $request->action))

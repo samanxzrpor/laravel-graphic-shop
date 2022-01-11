@@ -126,5 +126,5 @@ Route::prefix('payment')->group(function (){
 
     Route::post('pay' , [Pay::class , 'pay'])->name('payment.pay');
 
-    Route::get('challback' , [Pay::class , 'challback'])->name('payment.callback');
+    Route::post('challback' , [Pay::class , 'callback'])->name('payment.callback');
 });
